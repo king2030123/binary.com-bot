@@ -1,0 +1,36 @@
+  for(int i=0;i<Bars;i++){
+     if(extremes!=0){
+        SsMax = High[Highest(NULL,0,MODE_OPEN,periods,i+adjustment)];
+        SsMin = Low[Lowest(NULL,0,MODE_OPEN,periods,i+adjustment)];
+        }
+     else{
+        SsMax = Open[Highest(NULL,0,MODE_OPEN,periods,i+adjustment)];
+        SsMin = Open[Lowest(NULL,0,MODE_OPEN,periods,i+adjustment)];
+        }
+     smin = SsMin+(SsMax-SsMin)*margins/100;
+      smax = SsMax-(SsMax-SsMin)*margins/100;      
+     pivothi=((2*High[i])+Low[i]+(2*Close[i]))/5;
+     pivotlo=(High[i]+(2*Low[i])+(2*Close[i]))/5;
+     if(pivotlo>smin && pivothi>smax) flag1=true; else flag1=false;
+     if(pivothi<smax && pivotlo<smin) flag2=true; else flag2=false;
+  
+     if(flag1){
+        Buffer1[i]=High[i];
+        Buffer2[i]=Low[i];
+        }
+     if(flag2){
+        Buffer1[i]=Low[i];
+        Buffer2[i]=High[i];
+        }
+        
+     double sig=iSAR(NULL,0,0.5,1,i);
+     if(sig<Low[i]) Buffer3[i]=sig;
+     if(sig>High[i]) Buffer4[i]=sig;
+     
+     /*
+     double sig2=iSAR(NULL,0,1,0.2,i);
+     if(sig2<Low[i]) {Buffer5[i]=sig2; Buffer6[i]=-1;}
+     if(sig2>High[i]) {Buffer6[i]=sig2; Buffer5[i]=-1;}
+     */
+     
+     }//end for
